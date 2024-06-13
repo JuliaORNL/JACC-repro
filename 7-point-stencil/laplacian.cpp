@@ -167,7 +167,7 @@ int main(int argc, char **argv)
     size_t numbytes = nx * ny * nz * sizeof(precision);
 
     // Input and output arrays
-    precision *d_u, *d_f
+    precision *d_u, *d_f;
 
     // Allocate on device
     HIP_CHECK( hipMalloc((void**)&d_u, numbytes) );

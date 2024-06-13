@@ -30,11 +30,11 @@ using precision = double;
 using namespace std;
 
 // CUDA error check
-#define CUDA_CHECK(stat)                                           \
+#define CUDA_CHECK(stat)                                          \
 {                                                                 \
-    if(stat != cudaSuccess)                                        \
+    if(stat != cudaSuccess)                                       \
     {                                                             \
-        std::cerr << "CUDA error: " << cudaGetErrorString(stat) <<  \
+        std::cerr << "CUDA error: " << cudaGetErrorString(stat) <<\
         " in file " << __FILE__ << ":" << __LINE__ << std::endl;  \
         exit(-1);                                                 \
     }                                                             \
