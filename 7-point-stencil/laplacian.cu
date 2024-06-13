@@ -152,7 +152,7 @@ int main(int argc, char **argv){
     //         BLK_Z = 1;
     //     }
     
-    cout << "Kernel: " << KERNEL << endl;
+    // cout << "Kernel: " << KERNEL << endl;
     cout << "nx,ny,nz = " << nx << ", " << ny << ", " << nz << endl;
     cout << "block sizes = " << BLK_X << ", " << BLK_Y << ", " << BLK_Z << endl;
 
