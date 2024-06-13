@@ -108,8 +108,6 @@ int main(int argc, char **argv){
     precision tolerance = 3e-6;
 
     int num_iter = 1000;
-    #ifndef LB
-    #define LB 1024
 
     cout << "nx,ny,nz = " << nx << ", " << ny << ", " << nz << endl;
     cout << "block sizes = " << BLK_X << ", " << BLK_Y << ", " << BLK_Z << endl;
