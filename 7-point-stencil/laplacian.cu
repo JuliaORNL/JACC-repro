@@ -136,6 +136,23 @@ int main(int argc, char **argv){
 
     int num_iter = 1000;
 
+    if (argc > 1) nx = atoi(argv[1]);
+    if (argc > 2) ny = atoi(argv[2]);
+    if (argc > 3) nz = atoi(argv[3]);
+    if (argc > 4) BLK_X = atoi(argv[4]);
+    if (argc > 5) BLK_Y = atoi(argv[5]);
+    if (argc > 6) BLK_Z = atoi(argv[6]);
+
+    // #define LB 1024
+    //     if (BLK_X * BLK_Y * BLK_Z > LB) {
+    //         cout << "WARNING: input thread block size " << BLK_X <<"*" << BLK_Y << "*" << BLK_Z;
+    //         cout << " exceeds limit " << LB << ", resetting to " << LB << "*1*1" << endl;
+    //         BLK_X = LB;
+    //         BLK_Y = 1;
+    //         BLK_Z = 1;
+    //     }
+    
+    cout << "Kernel: " << KERNEL << endl;
     cout << "nx,ny,nz = " << nx << ", " << ny << ", " << nz << endl;
     cout << "block sizes = " << BLK_X << ", " << BLK_Y << ", " << BLK_Z << endl;
 
