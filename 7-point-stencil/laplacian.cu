@@ -76,6 +76,33 @@ void test_function(T *d_f, int nx, int ny, int nz, T hx, T hy, T hz) {
 }
 
 template <typename T>
+__global__ void check_kernel(int *error, const T *f, 
+                             int nx, int ny, int nz, 
+                             T hx, T hy, T hz,
+                             double tolerance) {
+
+    int i = threadIdx.x + blockIdx.x * blockDim.x;
+    int j = threadIdx.y + blockIdx.y * blockDim.y;
+    int k = threadIdx.z + blockIdx.z * blockDim.z;
+
+    // Exit if this thread is on the boundary
+    if (i == 0 || i >= nx - 1 ||
+        j == 0 || j >= ny - 1 ||
+        k == 0 || k >= nz - 1)
+        return;
+
+    size_t pos = i + nx * (j + ny * k);
+
+    // If the pointwise error exceeds the tolerance, we signal that an error has occurred
+
+    // Laplacian of u when u is initialized using `test_function_kernel`
+    T expected_f = 3;
+    if ( fabs(f[pos] - expected_f) / expected_f > tolerance) {
+        atomicAdd(error, 1); 
+    }
+}
+
+template <typename T>
 int check(T *d_f, int nx, int ny, int nz, T hx, T hy, T hz, T tolerance=1e-6) {
 
     dim3 block(256, 1);
