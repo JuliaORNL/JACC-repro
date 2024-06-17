@@ -30,14 +30,14 @@ using precision = double;
 using namespace std;
 
 // CUDA error check
-#define CUDA_CHECK(stat)                                           \
-{                                                                 \
-    if(stat != cudaSuccess)                                        \
-    {                                                             \
+#define CUDA_CHECK(stat)                                            \
+{                                                                   \
+    if(stat != cudaSuccess)                                         \
+    {                                                               \
         std::cerr << "CUDA error: " << cudaGetErrorString(stat) <<  \
-        " in file " << __FILE__ << ":" << __LINE__ << std::endl;  \
-        exit(-1);                                                 \
-    }                                                             \
+        " in file " << __FILE__ << ":" << __LINE__ << std::endl;    \
+        exit(-1);                                                   \
+    }                                                               \
 }
 
 template <typename T>
@@ -128,6 +128,7 @@ int main(int argc, char **argv){
     int BLK_X = 256;
     int BLK_Y = 1;
     int BLK_Z = 1;
+    char test = 'a';
 
     // Default problem size
     size_t nx = 512, ny = 512, nz = 512; // Cube dimensions
@@ -142,6 +143,7 @@ int main(int argc, char **argv){
     if (argc > 4) BLK_X = atoi(argv[4]);
     if (argc > 5) BLK_Y = atoi(argv[5]);
     if (argc > 6) BLK_Z = atoi(argv[6]);
+    if (argc > 7) test = argv[7][0];
 
     // #define LB 1024
     //     if (BLK_X * BLK_Y * BLK_Z > LB) {
@@ -153,16 +155,20 @@ int main(int argc, char **argv){
     //     }
     
     // cout << "Kernel: " << KERNEL << endl;
-    cout << "nx,ny,nz = " << nx << ", " << ny << ", " << nz << endl;
-    cout << "block sizes = " << BLK_X << ", " << BLK_Y << ", " << BLK_Z << endl;
+    if (test == 'a') {
+        cout << "nx,ny,nz = " << nx << ", " << ny << ", " << nz << endl;
+        cout << "block sizes = " << BLK_X << ", " << BLK_Y << ", " << BLK_Z << endl;
+    }
 
     // Theoretical fetch and write sizes:
     size_t theoretical_fetch_size = (nx * ny * nz - 8 - 4 * (nx - 2) - 4 * (ny - 2) - 4 * (nz - 2) ) * sizeof(precision);
     size_t theoretical_write_size = ((nx - 2) * (ny - 2) * (nz - 2)) * sizeof(precision);
 
-    std::cout << "Theoretical fetch size (GB): " << theoretical_fetch_size * 1e-9 << std::endl;
-    std::cout << "Theoretical write size (GB): " << theoretical_write_size * 1e-9 << std::endl;
-
+    if (test == 'a') {
+        std::cout << "Theoretical fetch size (GB): " << theoretical_fetch_size * 1e-9 << std::endl;
+        std::cout << "Theoretical write size (GB): " << theoretical_write_size * 1e-9 << std::endl;
+    }
+    
     size_t numbytes = nx * ny * nz * sizeof(precision);
 
     // Input and output arrays
@@ -207,10 +213,15 @@ int main(int argc, char **argv){
 
     // Effective memory bandwidth
     size_t datasize = theoretical_fetch_size + theoretical_write_size;
-    printf("Laplacian kernel took: %g ms, effective memory bandwidth: %g GB/s \n",
+    if (test == 'a') {
+        printf("Laplacian kernel took: %g ms, effective memory bandwidth: %g GB/s \n",
             total_elapsed / num_iter,
             datasize * num_iter / total_elapsed / 1e6
             );
+    } else if (test == 'b') {
+        printf("%g", datasize * num_iter / total_elapsed / 1e6);
+    }
+    
 
     // Clean up
     CUDA_CHECK( cudaFree(d_f) );
