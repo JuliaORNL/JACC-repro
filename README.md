@@ -17,7 +17,7 @@ GPU parameters:
 To run performance test, `cd` into Performance-test folder and run the following commands:
 ```
 chmod +x runtest.sh
-./runtest.sh [kernel] [output].txt [N]  
+./runtest.sh [kernel] [N] [output].txt
 ```
 - `kernel`: path to the compiled executable 
 - `output`: output file name to store test results
