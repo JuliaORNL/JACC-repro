@@ -17,12 +17,16 @@ GPU parameters:
 To run performance test, `cd` into Performance-test folder and run the following commands:
 ```
 chmod +x runtest.sh
-./runtest.sh [kernel] [N] [output].txt
+./runtest.sh [kernel] [L] [output].txt
 ```
 - `kernel`: path to the compiled executable 
 - `output`: output file name to store test results
-- `N`: problem dimension, only testing `nx`=`ny`=`nz`
-    - Maximum `N`:
+- `L`: problem dimension, only testing `nx`=`ny`=`nz`
+    - Maximum `L`:
         - MI100 (AMD): 1024
         - A100 (AMD): 1024
 
+## Test Results
+test-results-AMD-gpu.csv: Results of running the 7-point stencil kernel on AMD GPUs (Mi100 and Mi250X) with different problem sizes and GPU block dimensions
+- Column label: [GPU type]\_[L]\_[Bx]-[By]-[Bz]
+- Each column: 100 runs for each configuration
