@@ -60,6 +60,7 @@ done
 
 echo
 
+printf "L = $L, block sizes $Bx, $By, $Bz\n" > $OUTPUT_FILE
 printf "%s\n" "${results[@]}" > $OUTPUT_FILE
 
 #awk -v var="${results[*]}" 'BEGIN { print $9 }' > $OUTPUT_FILE
