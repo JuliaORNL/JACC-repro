@@ -2,11 +2,13 @@
 Reproducibility information for JACC performance tests
 - **GPU Test**:
     - Running with different problem sizes and GPU block dimensions
-    - Metrics: Bandwidth (GB/s)   
+    - Metrics: Bandwidth (GB/s)
+    - Machines tested: MI100 GPUs on Defiant, MI250x on Frontier (Odo)   
 - **CPU Test**:
     - Running with different problem sizes and the number of threads running in parallel
         -  `OMP_NUM_THREADS` is set to: 128, 64, 32, 16, 8, 4, 2, 1
     - Metrics: Wall-clock runtime (ms)   
+    - Machines tested: x86-based 64 cores CPU on Frontier
 
 ## Overview
 GPU parameters:
@@ -21,7 +23,7 @@ GPU parameters:
         - Default `precision`: double
 
 ## Run Performance Test
-To run performance test, `cd` into Performance-test folder and run the following commands:
+To run performance test, `cd` into Performance-test folder and run the following commands (change paths to the ones on your machine):
 ### GPU test
 ```
 chmod +x gpu-test.sh
@@ -37,9 +39,9 @@ chmod +x gpu-test.sh
 ### CPU test
 ```
 chmod +x cpu-test.sh
-./cpu-test.sh [kernel] [L]
+./cpu-test.sh [L] #run on current node
+sbatch --threads-per-core=2 job.sl [L] #submit job to run on compute node
 ```
-- `kernel`: path to the compiled executable 
 - `L`: problem dimension, only testing `nx`=`ny`=`nz`
     - Maximum `L`:
         - MI100 (AMD): 1024
