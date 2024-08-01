@@ -52,3 +52,29 @@ test-results-AMD-gpu.csv: Results of running the 7-point stencil kernel on AMD G
 - Column label: [GPU type]\_[L]\_[Bx]-[By]-[Bz]
 - Each column: 100 runs for each configuration
 - Data: bandwidth (GB/s)
+
+## Profiling
+### AMD GPUs
+Profile using `rocprof` \
+HIP:
+```
+rocprof --hsa-trace --stats -o prof_result.txt -i input.txt <executable>
+
+# input.txt
+pmc : FetchSize WriteSize 
+pmc : TCC_HIT[0], TCC_MISS[0]
+kernel: laplacian_kerne
+```
+JACC:
+```
+rocprof --stats -o profiling/prof_result.csv -i profiling/input.txt julia --project gray-scott.jl examples/settings-files.json 
+
+# Tracing
+ENABLE_JITPROFILING=1 rocprofv2 --plugin perfetto --sys-trace --kernel-trace -o out julia --project gray-scott.jl examples/settings-files.json
+```
+
+## LLVM-IR
+### AMD GPUs
+Compile with `-S` flag
+### JACC
+Import `InteractiveUtils` in script and add `InteractiveUtils.@code_llvm` before `parallel_for()`.
