@@ -59,7 +59,8 @@ Profile using `rocprof` \
 HIP:
 ```
 rocprof --hsa-trace --stats -o prof_result.txt -i input.txt <executable>
-
+```
+```
 # input.txt
 pmc : FetchSize WriteSize 
 pmc : TCC_HIT[0], TCC_MISS[0]
@@ -68,8 +69,9 @@ kernel: laplacian_kerne
 JACC:
 ```
 rocprof --stats -o profiling/prof_result.csv -i profiling/input.txt julia --project gray-scott.jl examples/settings-files.json 
-
-# Tracing
+```
+```
+# tracing
 ENABLE_JITPROFILING=1 rocprofv2 --plugin perfetto --sys-trace --kernel-trace -o out julia --project gray-scott.jl examples/settings-files.json
 ```
 
